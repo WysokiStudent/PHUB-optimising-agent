@@ -29,7 +29,6 @@ test_that("Does 'intialize.problem()' work correctly", {
   expect_true(all(problem$hubs == floor(problem$hubs)))
   
   # Are distances feasable
-  # expect_true(is.matrix(problem$distances))
   expect_false(anyNA(problem$distances))
   expect_true(is.numeric(problem$distances))
   expect_true(all(phub.test.file.distances == problem$distances))
@@ -42,7 +41,6 @@ test_that("Does 'intialize.problem()' work correctly", {
     ),
     dim = c(2, 8)
   )
-  # generate hyperCube m <- do.call(expand.grid, replicate(4, -1:1,simplify=FALSE) ) 
   does.action.exist <- FALSE
   for (expected.column.index in 1:ncol(kExpectedPossibleActions)) {
     for (possible.row.index in 1:nrow(problem$actions.possible)) {
@@ -55,4 +53,3 @@ test_that("Does 'intialize.problem()' work correctly", {
     does.action.exist <- FALSE
   }
 })
-  
