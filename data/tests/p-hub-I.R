@@ -53,3 +53,11 @@ test_that("Does 'intialize.problem()' work correctly", {
     does.action.exist <- FALSE
   }
 })
+
+
+test_that("Is initial state defined", {
+  problem <- initialize.problem(phub.test.file.name)
+  
+  expect_false(is.null(problem$state.initial))
+  expect_true(all(is.integer(problem$state.initial)))
+})
