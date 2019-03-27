@@ -46,7 +46,7 @@ source("../data/run tests.R")
 
 # =======================================================================
 # Solving of the problem (you have to adapt it)
-problem   = initialize.problem()
+problem   = initialize.problem("../data/phub_10.txt")
 BF.GS <- Breadth.First.Search(problem, graph.search = TRUE)
 all <- list(BF.GS)
 analyze.results(all, problem)

@@ -20,11 +20,18 @@
 # This function must return a list with the information needed to
 # solve the problem.
 # (Depending on the problem, it should receive or not parameters)
-initialize.problem = function(csv.directory, rows, columns){
+initialize.problem = function(phub.file.name){
   problem = list()
-  problem$actions.possible <- data.frame(direction = c(), stringsAsFactors = F)
-  problem$name = "problem title"
-  # problem$<aditional info> = <Insert code here>
+  problem$distances <- as.matrix(read.csv(phub.file.name, header = FALSE, skip = 2, sep = " "))
+  data.file <- file(phub.file.name, open = "r")
+  problem$number.of.hubs <- as.numeric(readLines(data.file, n = 1))
+  close(data.file)
+  problem$hubs <- 1:problem$number.of.hubs
+  problem$actions.possible <- do.call(
+    expand.grid,
+    replicate(problem$number.of.hubs, -1:1, simplify = FALSE)
+  )
+  problem$name = "phub-I"
   return(problem)
 }
 
