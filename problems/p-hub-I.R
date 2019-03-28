@@ -26,8 +26,7 @@ initialize.problem = function(phub.file.name){
   data.file <- file(phub.file.name, open = "r")
   problem$number.of.hubs <- as.numeric(readLines(data.file, n = 1))
   close(data.file)
-  problem$hubs <- 1:problem$number.of.hubs
-  problem$state.initial <- problem$hubs
+  problem$state.initial <- 1:problem$number.of.hubs
   problem$actions.possible <- do.call(
     expand.grid,
     replicate(problem$number.of.hubs, -1:1, simplify = FALSE)

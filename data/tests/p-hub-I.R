@@ -22,11 +22,8 @@ phub.test.file.distances <- matrix(
 test_that("Does 'intialize.problem()' work correctly", {
   problem <- initialize.problem(phub.test.file.name)
   
-  # Are hubs correctly defined
+  # Is number of hubs correctly defined
   expect_equal(problem$number.of.hubs, phub.test.file.number.of.hubs)
-  expect_length(problem$hubs, problem$number.of.hubs)
-  expect_false(anyNA(problem$hubs))
-  expect_true(all(problem$hubs == floor(problem$hubs)))
   
   # Are distances feasable
   expect_false(anyNA(problem$distances))
@@ -55,9 +52,11 @@ test_that("Does 'intialize.problem()' work correctly", {
 })
 
 
-test_that("Is initial state defined", {
+test_that("Is initial well state defined", {
   problem <- initialize.problem(phub.test.file.name)
   
   expect_false(is.null(problem$state.initial))
+  expect_length(problem$state.initial, problem$number.of.hubs)
   expect_true(all(is.integer(problem$state.initial)))
+  expect_true(all(problem$state.initial >= 1))
 })
