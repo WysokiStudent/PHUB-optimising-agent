@@ -78,21 +78,18 @@ get.cost = function (action,state){
 get.evaluation = function(state,problem){
   updated.distances <- problem$distances
   hub.indeces <- state
+  
   hub.distances <- sapply(hub.indeces, function (index) {
     problem$distances[, index]
   })
   
-  closest.indeces <- c()
-  for(row.index in 1:nrow(hub.distances)) {
-    closest.indeces <- append(closest.indeces, which.min(hub.distances[row.index, ]))
-  }
-  closest.indeces <- sapply(hub.distances, function(row) {
-    which.min(row)
+  closest.hub.indeces.indeces <- sapply(1:nrow(hub.distances), function (row.index) {
+    which.min(hub.distances[row.index, ])
   })
   
   for(row.index in 1:nrow(problem$distances)) {
-    for(column.index in 1:ncol(problem$distances)) {
-      closest.hub <- hub.indeces[closest.indeces[row.index]]
+    for(column.index in row.index:ncol(problem$distances)) {
+      closest.hub <- hub.indeces[closest.hub.indeces.indeces[row.index]]
       updated.distances[row.index, column.index] <- 
         problem$distances[closest.hub, column.index] + 
         problem$distances[row.index, closest.hub]
