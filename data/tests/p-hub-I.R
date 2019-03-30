@@ -114,6 +114,7 @@ test_that("Is 'effect' well defined", {
   
   state <- 2:(problem$number.of.hubs+1)
   apply(problem$actions.possible, 1, function (action) {
-    expect_true(all(state + action == effect(state, action)))
+    expect_true(identical(state + as.vector(unlist(action)), effect(state, action)))
+    expect_true(identical(state, effect(effect(state, action), -action)))
   })
 })
