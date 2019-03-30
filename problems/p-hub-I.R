@@ -39,8 +39,8 @@ initialize.problem = function(phub.file.name){
 # Must return TRUE or FALSE according with if the action can be done or not
 # over the specific state
 is.applicable <- function (state, action, problem){
-  result <- FALSE
-  return(result)
+    future.state <- state + action
+    return (!(anyDuplicated(future.state) || 0 %in% future.state || (nrow(problem$distances) + 1) %in% future.state))
 }
 
 # =======================================================================

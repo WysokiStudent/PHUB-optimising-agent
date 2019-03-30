@@ -73,3 +73,46 @@ test_that("Is 'get.evaluation' well defined", {
   expect_true(get.evaluation(good.state, problem) < get.evaluation(bad.state, problem))
   expect_false(get.evaluation(good.state, problem) > get.evaluation(bad.state, problem))
 })
+
+
+test_that("Is 'is.applicable' well defined", {
+  problem <- initialize.problem(phub.test.file.name)
+  
+  # Testing corner cases
+  #note the state created here is illegal
+  state <- c(rep.int(1, phub.test.file.number.of.hubs))
+  apply(problem$actions.possible, 1,  function (action) {
+    if (-1 %in% action)
+      expect_false(is.applicable(state, action, problem))
+    else if (anyDuplicated(state + action))
+      # A state where there are 2 hubs at the same place is illegal
+      expect_false(is.applicable(state, action, problem))
+    else
+      expect_true(is.applicable(state, action, problem))
+  })
+  
+  
+  #note the state created here is illegal
+  state <- c(rep.int(nrow(phub.test.file.distances), phub.test.file.number.of.hubs))
+  apply(problem$actions.possible, 1,  function (action) {
+    if (1 %in% action)
+      expect_false(is.applicable(state, action, problem))
+    else if (anyDuplicated(state + action))
+      # A state where there are 2 hubs at the same place is illegal
+      expect_false(is.applicable(state, action, problem))
+    else
+      expect_true(is.applicable(state, action, problem))
+  })
+  
+  
+  # Testing general case
+  # The state here is legal
+  state <- 2:phub.test.file.number.of.hubs
+  apply(problem$actions.possible, 1,  function (action) {
+    if (anyDuplicated(state + action))
+      # A state where there are 2 hubs at the same place is illegal
+      expect_false(is.applicable(state, action, problem))
+    else
+      expect_true(is.applicable(state, action, problem))
+  })
+})
