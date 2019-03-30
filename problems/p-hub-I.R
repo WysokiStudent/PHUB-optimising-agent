@@ -26,7 +26,7 @@ initialize.problem = function(phub.file.name){
   data.file <- file(phub.file.name, open = "r")
   problem$number.of.hubs <- as.numeric(readLines(data.file, n = 1))
   close(data.file)
-  problem$state.initial <- 1:problem$number.of.hubs
+  problem$state.initial <- 2:(problem$number.of.hubs+1)
   problem$actions.possible <- do.call(
     expand.grid,
     replicate(problem$number.of.hubs, -1:1, simplify = FALSE)
@@ -39,8 +39,9 @@ initialize.problem = function(phub.file.name){
 # Must return TRUE or FALSE according with if the action can be done or not
 # over the specific state
 is.applicable <- function (state, action, problem){
-    future.state <- state + action
-    return (!(anyDuplicated(future.state) || 0 %in% future.state || (nrow(problem$distances) + 1) %in% future.state))
+  # TODO(Aleksander Bobiński) The unlist() part needs an additional test
+  future.state <- state + as.vector(unlist(action))
+  return (!(anyDuplicated(future.state) || 0 %in% future.state || (nrow(problem$distances) + 1) %in% future.state))
 }
 
 # =======================================================================
@@ -61,7 +62,7 @@ is.final.state = function (state, finalstate = NULL){
 # =======================================================================
 # Must print the state in console (in a legible way)
 to.string = function (state){
-  # <insert code here to print the state>
+  print(as.vector(unlist(state)))
 }
 
 # =======================================================================

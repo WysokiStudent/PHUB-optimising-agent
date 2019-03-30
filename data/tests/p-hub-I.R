@@ -99,7 +99,7 @@ test_that("Is 'is.applicable' well defined", {
     apply(problem$actions.possible, 1,  function (action) {
       if (test.state$illegal.action.value %in% action)
         expect_false(is.applicable(test.state$state, action, problem))
-      else if (anyDuplicated(test.state$state + action))
+      else if (anyDuplicated(effect(test.state$state, action)))
         # A state where there are 2 hubs at the same place is illegal
         expect_false(is.applicable(test.state$state, action, problem))
       else
