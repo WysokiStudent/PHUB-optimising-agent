@@ -62,7 +62,7 @@ Hill.Climb = function(problem,
         to.string(newnode$state)
       }
     } else{
-      end.reason = "Sollution"
+      end.reason = "Frontier"
       break
     }
     
@@ -86,21 +86,20 @@ Hill.Climb = function(problem,
 
   # Show the obtained (or not) final solution
   if (end.reason == "Sollution"){
-    print("Solution found!!", quote = F)
-    to.string(firstnode$state)
-    print("Evaluation is: ")
-    print(firstnode$evaluation)
-    print("Actions: ", quote = F)
-    print(firstnode$actions, quote = F)
-    result$state.final = firstnode
+    print("Solution found!", quote = F)
   } else{
     if (end.reason == "Frontier"){
-      print("Empty frontier. No sollution found", quote = F)
+      print("Empty frontier", quote = F)
     } else{
-      print("Maximum Number of iterations reached. No sollution found", quote = F)
+      print("Maximum Number of iterations reached", quote = F)
     }
-      result$state.final = NA
   }
+  to.string(firstnode$state)
+  print("Evaluation is: ")
+  print(firstnode$evaluation)
+  print("Actions: ", quote = F)
+  print(firstnode$actions, quote = F)
+  result$state.final = firstnode
   
   plot.results(report,name.method,problem)
   
