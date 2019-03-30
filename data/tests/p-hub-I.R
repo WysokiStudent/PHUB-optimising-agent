@@ -82,22 +82,22 @@ test_that("Is 'is.applicable' well defined", {
     list(
       # This state is illegal but good for tests
       state = c(rep.int(1, phub.test.file.number.of.hubs)), 
-      illegal.index = -1
+      illegal.action.value = -1
     ),
     list(
       # This state is illegal but good for tests
       state = c(rep.int(nrow(phub.test.file.distances), phub.test.file.number.of.hubs)),
-      illegal.index = 1
+      illegal.action.value = 1
     ),
     list(
       state = 2:(phub.test.file.number.of.hubs+1),
-      illegal.index = NaN
+      illegal.action.value = NaN
     )
   )
   
   lapply(states.to.test, function (test.state) {
     apply(problem$actions.possible, 1,  function (action) {
-      if (test.state$illegal.index %in% action)
+      if (test.state$illegal.action.value %in% action)
         expect_false(is.applicable(test.state$state, action, problem))
       else if (anyDuplicated(test.state$state + action))
         # A state where there are 2 hubs at the same place is illegal
