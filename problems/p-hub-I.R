@@ -76,5 +76,28 @@ get.cost = function (action,state){
 # (Used for Informed Algorithms)
 # Heuristic function used in Informed algorithms
 get.evaluation = function(state,problem){
-	return(1)
+  updated.distances <- problem$distances
+  hub.indeces <- state
+  hub.distances <- sapply(hub.indeces, function (index) {
+    problem$distances[, index]
+  })
+  
+  closest.indeces <- c()
+  for(row.index in 1:nrow(hub.distances)) {
+    closest.indeces <- append(closest.indeces, which.min(hub.distances[row.index, ]))
+  }
+  closest.indeces <- sapply(hub.distances, function(row) {
+    which.min(row)
+  })
+  
+  for(row.index in 1:nrow(problem$distances)) {
+    for(column.index in 1:ncol(problem$distances)) {
+      closest.hub <- hub.indeces[closest.indeces[row.index]]
+      updated.distances[row.index, column.index] <- 
+        problem$distances[closest.hub, column.index] + 
+        problem$distances[row.index, closest.hub]
+    }
+  }
+  
+	return(sum(updated.distances[upper.tri(updated.distances)]))
 }

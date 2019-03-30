@@ -60,3 +60,16 @@ test_that("Is initial well state defined", {
   expect_true(all(is.integer(problem$state.initial)))
   expect_true(all(problem$state.initial >= 1))
 })
+
+
+test_that("Is 'get.evaluation' well defined", {
+  problem <- initialize.problem(phub.test.file.name)
+  
+  equal.state <- c(1, 2)
+  good.state <- c(1, 2)
+  bad.state <- c(9, 10)
+  
+  expect_true(get.evaluation(equal.state, problem) == get.evaluation(equal.state, problem))
+  expect_true(get.evaluation(good.state, problem) < get.evaluation(bad.state, problem))
+  expect_false(get.evaluation(good.state, problem) > get.evaluation(bad.state, problem))
+})
