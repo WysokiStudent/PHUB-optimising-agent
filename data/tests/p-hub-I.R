@@ -107,3 +107,13 @@ test_that("Is 'is.applicable' well defined", {
     })
   })
 })
+
+
+test_that("Is 'effect' well defined", {
+  problem <- initialize.problem(phub.test.file.name)
+  
+  state <- 2:(problem$number.of.hubs+1)
+  apply(problem$actions.possible, 1, function (action) {
+    expect_true(all(state + action == effect(state, action)))
+  })
+})

@@ -46,8 +46,7 @@ is.applicable <- function (state, action, problem){
 # =======================================================================
 # Must return the state resulting on applying the action over the state
 effect <- function (state, action){
-  result <- NULL
-  return (result)
+  return (state + action)
 }
 
 
