@@ -34,7 +34,7 @@ library(testthat)
 
 # ADDITIONAL FUNCTIONS (add any used method/problem here)
 source("../problems/p-hub-I.R")
-source("../methods/Breadth First Search.R")
+source("../methods/Hill Climb.R")
 
 # And here, there are additional (needed) functions
 source("../methods/Expand Node.R")
@@ -46,7 +46,7 @@ source("../data/run tests.R")
 
 # =======================================================================
 # Solving of the problem (you have to adapt it)
-problem   = initialize.problem("../data/phub_10.txt")
-BF.GS <- Breadth.First.Search(problem, graph.search = TRUE)
-all <- list(BF.GS)
+problem   = initialize.problem("../data/phub_100.txt")
+hill.climb <- Hill.Climb(problem)
+all <- list(hill.climb)
 analyze.results(all, problem)

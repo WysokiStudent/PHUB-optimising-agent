@@ -4,15 +4,15 @@ Hill.Climb = function(problem,
                                 trace = FALSE){
   
   name.method = "Hill Climb"
-  state.initial    = problem$state.initial
-  state.final      = problem$state.final
+  state.initial = problem$state.initial
+  state.final = problem$state.final
   actions.possible = problem$actions.possible
   
   node = list(parent=c(),
               state=state.initial,
               actions=c(),
               depth=0,
-              evaluation = get.evaluation(state.initial,problem),
+              evaluation = get.evaluation(state.initial, problem),
 			        cost=0)
   frontier = list(node)
 
@@ -50,8 +50,8 @@ Hill.Climb = function(problem,
     
     nodes.added.frontier = 0
     if (length(newnodes)){
-      newnode = newnodes[which.min(sapply(newnodes, function(x) x$evaluation))]
-      if (firstnode$evaluation < newnode$evaluation){
+      newnode = newnodes[which.min(sapply(newnodes, function(x) x$evaluation))][[1]]
+      if (firstnode$evaluation <= newnode$evaluation){
         end.reason = "Sollution"
         break
       }
@@ -62,7 +62,7 @@ Hill.Climb = function(problem,
         to.string(newnode$state)
       }
     } else{
-      end.reason = "No more nodes - solution"
+      end.reason = "Sollution"
       break
     }
     
@@ -88,6 +88,8 @@ Hill.Climb = function(problem,
   if (end.reason == "Sollution"){
     print("Solution found!!", quote = F)
     to.string(firstnode$state)
+    print("Evaluation is: ")
+    print(firstnode$evaluation)
     print("Actions: ", quote = F)
     print(firstnode$actions, quote = F)
     result$state.final = firstnode
