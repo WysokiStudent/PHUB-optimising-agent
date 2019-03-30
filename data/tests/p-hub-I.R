@@ -78,41 +78,32 @@ test_that("Is 'get.evaluation' well defined", {
 test_that("Is 'is.applicable' well defined", {
   problem <- initialize.problem(phub.test.file.name)
   
-  # Testing corner cases
-  #note the state created here is illegal
-  state <- c(rep.int(1, phub.test.file.number.of.hubs))
-  apply(problem$actions.possible, 1,  function (action) {
-    if (-1 %in% action)
-      expect_false(is.applicable(state, action, problem))
-    else if (anyDuplicated(state + action))
-      # A state where there are 2 hubs at the same place is illegal
-      expect_false(is.applicable(state, action, problem))
-    else
-      expect_true(is.applicable(state, action, problem))
-  })
+  states.to.test = list(
+    list(
+      # This state is illegal but good for tests
+      state = c(rep.int(1, phub.test.file.number.of.hubs)), 
+      illegal.index = -1
+    ),
+    list(
+      # This state is illegal but good for tests
+      state = c(rep.int(nrow(phub.test.file.distances), phub.test.file.number.of.hubs)),
+      illegal.index = 1
+    ),
+    list(
+      state = 2:(phub.test.file.number.of.hubs+1),
+      illegal.index = NaN
+    )
+  )
   
-  
-  #note the state created here is illegal
-  state <- c(rep.int(nrow(phub.test.file.distances), phub.test.file.number.of.hubs))
-  apply(problem$actions.possible, 1,  function (action) {
-    if (1 %in% action)
-      expect_false(is.applicable(state, action, problem))
-    else if (anyDuplicated(state + action))
-      # A state where there are 2 hubs at the same place is illegal
-      expect_false(is.applicable(state, action, problem))
-    else
-      expect_true(is.applicable(state, action, problem))
-  })
-  
-  
-  # Testing general case
-  # The state here is legal
-  state <- 2:phub.test.file.number.of.hubs
-  apply(problem$actions.possible, 1,  function (action) {
-    if (anyDuplicated(state + action))
-      # A state where there are 2 hubs at the same place is illegal
-      expect_false(is.applicable(state, action, problem))
-    else
-      expect_true(is.applicable(state, action, problem))
+  lapply(states.to.test, function (test.state) {
+    apply(problem$actions.possible, 1,  function (action) {
+      if (test.state$illegal.index %in% action)
+        expect_false(is.applicable(test.state$state, action, problem))
+      else if (anyDuplicated(test.state$state + action))
+        # A state where there are 2 hubs at the same place is illegal
+        expect_false(is.applicable(test.state$state, action, problem))
+      else
+        expect_true(is.applicable(test.state$state, action, problem))
+    })
   })
 })
