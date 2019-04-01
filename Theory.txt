@@ -1,0 +1,17 @@
+intial state - vector of p elemets which stores which airports should be the hubs(international), where p is the number of international airports.
+The order in which airports appear makes no differance. The values range from 1 to n where
+n is the number of airports specified in the problem. Concretly the intial state used in the solution is: 2, 3, 4...p, p + 1
+
+We are looking for a final state hence it is left undefined. Since we deal with an optimisation problem we can never be sure that we found the best solution. Of course for some algorithms the probablity that an optimal answer is found converges to 1 as time approches positive infinity.
+
+The possible actions are defined as data frame which contains vectors of p elements. Each value in the vector is either {-1, 0, 1}. The number of elements in the dataframe is 3^p. Although the the state which contains all 0 could be erased.
+
+A change is the state is realised by adding an action (p element vector) to the state (p element vector). A condition is that the state cannot be made invalid by an action (eg. -1, -2, 1, 1).
+
+The evaluation function recalculates the upper triangular part of the distance matrix given in the file with distances, so that the distances take into account the connation of airports to hubs (insted of being a straight line distance between 2 airports) then all the elements in the upper triangular part of the distance matrix are added. The resulting value is the evaluation.
+
+The algorithm used to find the local minimum (which is hopefully the global minimum) is the basic hill climber. To avoid loops the algorithm terminates when it is on a plateau. A different algorithm could solve this issue in a more efficient manner.
+
+The space required is O(3^p) it depends on the number of hubs rather than the number of airports so in certain scenarios it may favorable. The worst case branching factor is 3^p but in practise it is much smaller due to possible future states being duplicated or unfeasable (eg 1, 1, 1). It is possible to extend the algorithm to posses a list of previously visited nodes, this would further decrease the average branching factor but at a O(k) space cost where k is the number of previously evaluated states.
+
+Because of the problem and algorithm choice the solution is complete but not necessarily optimal. We cannot be sure of the depth at which the optimal solution lies, neither can we be certain of the depth at which any solution lies.
