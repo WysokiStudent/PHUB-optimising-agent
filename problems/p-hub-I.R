@@ -89,10 +89,12 @@ get.evaluation = function(state,problem){
   
   for(row.index in 1:nrow(problem$distances)) {
     for(column.index in row.index:ncol(problem$distances)) {
-      closest.hub <- hub.indeces[closest.hub.indeces.indeces[row.index]]
+      closest.A.hub <- hub.indeces[closest.hub.indeces.indeces[row.index]]
+      closest.B.hub <- hub.indeces[closest.hub.indeces.indeces[column.index]]
       updated.distances[row.index, column.index] <- 
-        problem$distances[closest.hub, column.index] + 
-        problem$distances[row.index, closest.hub]
+        problem$distances[closest.A.hub, column.index] + 
+        problem$distances[row.index, closest.B.hub] +
+        problem$distances[closest.A.hub, closest.B.hub]
     }
   }
   
