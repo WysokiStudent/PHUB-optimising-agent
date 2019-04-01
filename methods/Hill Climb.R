@@ -60,11 +60,12 @@ Hill.Climb = function(problem,
         if (firstnode$evaluation < best.node$evaluation)
           best.node <- firstnode
         
+        restart.state <- sample(1:nrow(problem$distances), problem$number.of.hubs)
         newnode = list(parent=c(),
-                    state=sample(1:nrow(problem$distances), problem$number.of.hubs),
+                    state=restart.state,
                     actions=c(),
                     depth=0,
-                    evaluation = get.evaluation(state.initial, problem),
+                    evaluation = get.evaluation(restart.state, problem),
                     cost=0)
         
         # break
