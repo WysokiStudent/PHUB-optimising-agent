@@ -15,6 +15,7 @@ Hill.Climb = function(problem,
               evaluation = get.evaluation(state.initial, problem),
 			        cost=0)
   frontier = list(node)
+  best.node = node
 
   
   count = 1
@@ -53,7 +54,20 @@ Hill.Climb = function(problem,
       newnode = newnodes[which.min(sapply(newnodes, function(x) x$evaluation))][[1]]
       if (firstnode$evaluation <= newnode$evaluation){
         end.reason = "Sollution"
-        break
+        print(firstnode$state)
+        print(firstnode$evaluation)
+        
+        if (firstnode$evaluation < best.node$evaluation)
+          best.node <- firstnode
+        
+        newnode = list(parent=c(),
+                    state=sample(1:nrow(problem$distances), problem$number.of.hubs),
+                    actions=c(),
+                    depth=0,
+                    evaluation = get.evaluation(state.initial, problem),
+                    cost=0)
+        
+        # break
       }
 			frontier = append(frontier,list(newnode))
 			nodes.added.frontier = nodes.added.frontier + 1
@@ -94,12 +108,12 @@ Hill.Climb = function(problem,
       print("Maximum Number of iterations reached", quote = F)
     }
   }
-  to.string(firstnode$state)
+  to.string(best.node$state)
   print("Evaluation is: ")
-  print(firstnode$evaluation)
+  print(best.node$evaluation)
   print("Actions: ", quote = F)
-  print(firstnode$actions, quote = F)
-  result$state.final = firstnode
+  print(best.node$actions, quote = F)
+  result$state.final = best.node
   
   plot.results(report,name.method,problem)
   
